@@ -1,0 +1,67 @@
+#!/usr/bin/env node
+/* eslint-disable no-console */
+const mongoose = require('mongoose');
+const setupApp = require('../app');
+const { startServer, stopServer } = require('./scripts');
+
+function normalizePort(val) {
+	const port = parseInt(val, 10);
+
+	if (Number.isNaN(port)) {
+		// named pipe
+		return val;
+	}
+
+	if (port >= 0) {
+		// port number
+		return port;
+	}
+
+	return false;
+}
+
+async function logErrorAndExit(error) {
+	console.error(error.message);
+	process.exit();
+}
+
+async function run() {
+	const dbPath = process.env.MONGODB_URI;
+	try {
+		await mongoose.connect(dbPath, {
+			useCreateIndex: true,
+			useNewUrlParser: true,
+			useUnifiedTopology: true,
+		});
+		console.log(`Database is connected ${dbPath}`);
+	} catch (error) {
+		console.log(`Can not connect to the database${error}`);
+		logErrorAndExit(error);
+	}
+	const port = normalizePort(process.env.PORT || '5000');
+
+	const app = await setupApp();
+
+	const server = await startServer(app, port);
+
+	let stopped = false;
+
+	async function stop() {
+		if (!stopped) {
+			stopped = true;
+			try {
+				await stopServer(server);
+				await mongoose.connection.close();
+				console.info('close mongoose');
+				process.exit();
+			} catch (error) {
+				logErrorAndExit(error);
+			}
+		}
+	}
+
+	process.on('SIGINT', stop);
+	process.on('SIGTERM', stop);
+}
+
+run().catch(logErrorAndExit);
