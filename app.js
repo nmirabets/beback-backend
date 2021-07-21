@@ -10,7 +10,11 @@ const createError = require('http-errors');
 require('dotenv').config();
 
 const authRouter = require('./routes/auth');
-const demoRouter = require('./routes/demo');
+const restaurantsRouter = require('./routes/restaurants');
+const menusRouter = require('./routes/menus');
+const sectionsRouter = require('./routes/sections');
+const itemsRouter = require('./routes/items');
+const reactionsRouter = require('./routes/reactions');
 
 async function setupApp() {
 	const app = express();
@@ -42,7 +46,11 @@ async function setupApp() {
 	);
 
 	app.use('/', authRouter);
-	app.use('/protected', demoRouter);
+	app.use('/restaurants', restaurantsRouter);
+	app.use('/menus', menusRouter);
+	app.use('/sections', sectionsRouter);
+	app.use('/items', itemsRouter);
+	app.use('/reactions', reactionsRouter);
 
 	// catch 404 and forward to error handler
 	app.use((req, res, next) => {

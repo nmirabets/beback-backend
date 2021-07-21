@@ -2,13 +2,14 @@ const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
-const menuSectionSchema = new Schema(
+const sectionSchema = new Schema(
 	{
 		name: { type: String, required: true },
 		menuId: { type: Schema.Types.ObjectId, ref: 'Menu' },
+		position: { type: Number, default: 1 }
 	}
 );
 
-const MenuSection = mongoose.model('MenuSection', menuSectionSchema);
+const section = mongoose.model('Section', sectionSchema);
 
-module.exports = MenuSection;
+module.exports = section;

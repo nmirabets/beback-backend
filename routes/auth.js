@@ -8,9 +8,9 @@ const User = require('../models/User');
 
 const bcryptSalt = 10;
 
-const router = express.Router();
+const authRouter = express.Router();
 
-router.get('/whoami', (req, res, next) => {
+authRouter.get('/whoami', (req, res, next) => {
 	if (req.session.currentUser) {
 		res.status(200).json(req.session.currentUser);
 	} else {
@@ -18,7 +18,7 @@ router.get('/whoami', (req, res, next) => {
 	}
 });
 
-router.post('/signup', checkUsernameAndPasswordNotEmpty, async (req, res, next) => {
+authRouter.post('/signup', checkUsernameAndPasswordNotEmpty, async (req, res, next) => {
 	const { username, password } = res.locals.auth;
 	try {
 		const user = await User.findOne({ username });
@@ -37,7 +37,7 @@ router.post('/signup', checkUsernameAndPasswordNotEmpty, async (req, res, next) 
 	}
 });
 
-router.post('/login', checkUsernameAndPasswordNotEmpty, async (req, res, next) => {
+authRouter.post('/login', checkUsernameAndPasswordNotEmpty, async (req, res, next) => {
 	const { username, password } = res.locals.auth;
 	try {
 		const user = await User.findOne({ username });
@@ -54,7 +54,7 @@ router.post('/login', checkUsernameAndPasswordNotEmpty, async (req, res, next) =
 	}
 });
 
-router.post('/logout', (req, res, next) => {
+authRouter.post('/logout', (req, res, next) => {
 	req.session.destroy(err => {
 		if (err) {
 			next(err);
@@ -64,4 +64,4 @@ router.post('/logout', (req, res, next) => {
 	});
 });
 
-module.exports = router;
+module.exports = authRouter;

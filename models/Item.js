@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
-const menuItemSchema = new Schema(
+const itemSchema = new Schema(
 	{
 		menuId: { type: Schema.Types.ObjectId, ref: 'Menu' },
 		sectionId: { type: Schema.Types.ObjectId, ref: 'Section' },
@@ -10,11 +10,12 @@ const menuItemSchema = new Schema(
 		description: { type: String },
 		imgUrl: { type: String },
 		price: { type: Number },
-		isPromoted: { type: Boolean },
+		isPromoted: { type: Boolean, default: false},
 		allergens: [{ type: String, enum: ["gluten", "lactose", "peanuts"] }],
+		position: { type: Number, default: 1 },
 	}
 );
 
-const MenuItem = mongoose.model('MenuItem', menuItemSchema);
+const Item = mongoose.model('Item', itemSchema);
 
-module.exports = MenuItem;
+module.exports = Item;
