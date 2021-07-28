@@ -6,7 +6,7 @@ const itemSchema = new Schema(
 	{
 		menuId: { type: Schema.Types.ObjectId, ref: 'Menu' },
 		sectionId: { type: Schema.Types.ObjectId, ref: 'Section' },
-		name: { type: String, required: true, unique: true },
+		name: { type: String, required: true },
 		description: { type: String },
 		imgUrl: { type: String },
 		price: { type: Number },

@@ -4,19 +4,19 @@ const itemsRouter = express.Router();
 
 const Item = require('../models/Item');
 
-// Get all items for a given section
-itemsRouter.get('/',checkIfLoggedIn, async (req, res, next) => {
+// Get all items for a given menu
+itemsRouter.post('/', checkIfLoggedIn, async (req, res, next) => {
 	try {
-		const { sectionId } = req.body;
-		const item = await Item.find({ sectionId })
-		res.json({ found: item })
+		const { menuId } = req.body;
+		const items = await Item.find({ menuId })
+		res.json({ found: items })
 	} catch(error) {
 		next(error)
 	}
 });
 
 // Create an item
-itemsRouter.post('/', checkIfLoggedIn, async (req, res, next) => {
+itemsRouter.post('/new', checkIfLoggedIn, async (req, res, next) => {
 	try {
 		const { menuId, sectionId, name, description, imgUrl, price, allergens } = req.body;
 		const item = await Item.create({ menuId, sectionId, name, description, imgUrl, price, allergens })

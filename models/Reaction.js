@@ -7,7 +7,7 @@ const ReactionSchema = new Schema(
 		restaurantId: { type: Schema.Types.ObjectId, ref: 'Restaurant' },
 		dimension: { type: String, required: true  },
 		subdimension: { type: String, required: true  },
-		type: { type: Boolean, required: true  },
+		isPositive: { type: Boolean, required: true  },
 		// session Id - backlog
 	},
 	{

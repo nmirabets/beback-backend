@@ -5,7 +5,7 @@ const sectionsRouter = express.Router();
 const Section = require('../models/Section');
 
 // Get all sections for a given menu
-sectionsRouter.get('/',checkIfLoggedIn, async (req, res, next) => {
+sectionsRouter.post('/', checkIfLoggedIn, async (req, res, next) => {
 	try {
 		const { menuId } = req.body;
 		const section = await Section.find({ menuId })
@@ -16,7 +16,7 @@ sectionsRouter.get('/',checkIfLoggedIn, async (req, res, next) => {
 });
 
 // Create a section
-sectionsRouter.post('/', checkIfLoggedIn, async (req, res, next) => {
+sectionsRouter.post('/new', checkIfLoggedIn, async (req, res, next) => {
 	try {
 		const { menuId, name } = req.body;
 		const section = await Section.create({ menuId, name })
@@ -25,6 +25,8 @@ sectionsRouter.post('/', checkIfLoggedIn, async (req, res, next) => {
 		next(error)
  	}
 });
+
+
 
 // Edit a section
 sectionsRouter.put('/', checkIfLoggedIn, async (req, res, next ) => {

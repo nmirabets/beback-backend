@@ -6,7 +6,7 @@ const sectionSchema = new Schema(
 	{
 		name: { type: String, required: true },
 		menuId: { type: Schema.Types.ObjectId, ref: 'Menu' },
-		position: { type: Number, default: 1 }
+		position: { type: Number, default: 1 },
 	}
 );
 
