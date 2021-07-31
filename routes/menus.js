@@ -8,7 +8,7 @@ const Section = require('../models/Section');
 const Item = require('../models/Item');
 
 // Get a menu by menuId
-menusRouter.post('/',checkIfLoggedIn, async (req, res, next) => {
+menusRouter.post('/', async (req, res, next) => {
 	try {
 		const { menuId } = req.body;
 		const menu = await Menu.find({ _id: menuId })
@@ -54,9 +54,9 @@ menusRouter.post('/menu-data',checkIfLoggedIn, async (req, res, next) => {
 // Create a menu
 menusRouter.post('/new', checkIfLoggedIn, async (req, res, next) => {
 	try {
-		const { restaurantId, name } = req.body;
-		const menu = await Menu.create({ restaurantId, name })
-		res.json({ created: menu });
+		const { menu } = req.body;
+		const newMenu = await Menu.create(menu);
+		res.json({ created: newMenu });
 	} catch(error) {
 		next(error)
  	}
@@ -65,9 +65,9 @@ menusRouter.post('/new', checkIfLoggedIn, async (req, res, next) => {
 // Edit a menu
 menusRouter.put('/', checkIfLoggedIn, async (req, res, next ) => {
 	try {
-		const { id, name } = req.body;
-		const menu = await Menu.findByIdAndUpdate(id, { name })
-		res.json({ updated: menu });
+		const { menu } = req.body;
+		const updatedMenu = await Menu.findByIdAndUpdate(menu.id, { name: menu.name })
+		res.json({ updated: updatedMenu });
 	} catch(error) {
 		next(error)
 	}
@@ -77,8 +77,8 @@ menusRouter.put('/', checkIfLoggedIn, async (req, res, next ) => {
 menusRouter.delete('/', checkIfLoggedIn, async (req, res, next) => {
 	try {
 		const { id } = req.body;
-		const menu = await Menu.findByIdAndDelete( id );
-		res.json({ deleted: menu });
+		const deletedMenu = await Menu.findByIdAndDelete( id );
+		res.json({ deleted: deletedMenu });
 	} catch(error) {
 		next(error)
 	}

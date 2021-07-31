@@ -4,11 +4,11 @@ const sectionsRouter = express.Router();
 
 const Section = require('../models/Section');
 
-// Get all sections for a given menu
-sectionsRouter.post('/', checkIfLoggedIn, async (req, res, next) => {
+// Get all sections by restaurantId
+sectionsRouter.post('/', async (req, res, next) => {
 	try {
-		const { menuId } = req.body;
-		const section = await Section.find({ menuId })
+		const {restaurantId } = req.body;
+		const section = await Section.find({ restaurantId })
 		res.json({ found: section })
 	} catch(error) {
 		next(error)
@@ -18,22 +18,20 @@ sectionsRouter.post('/', checkIfLoggedIn, async (req, res, next) => {
 // Create a section
 sectionsRouter.post('/new', checkIfLoggedIn, async (req, res, next) => {
 	try {
-		const { menuId, name } = req.body;
-		const section = await Section.create({ menuId, name })
-		res.json({ created: section });
+		const { section } = req.body;
+		const newSection = await Section.create(section )
+		res.json({ created: newSection });
 	} catch(error) {
 		next(error)
  	}
 });
 
-
-
-// Edit a section
+// update section
 sectionsRouter.put('/', checkIfLoggedIn, async (req, res, next ) => {
 	try {
-		const { id, name, position } = req.body;
-		const section = await Section.findByIdAndUpdate(id, { name, position }, { new: true })
-		res.json({ updated: section });
+		const { section } = req.body;
+		const updatedSection = await Section.findByIdAndUpdate( section._id, { name: section.name, position: section.position }, { new: true })
+		res.json({ updated: updatedSection });
 	} catch(error) {
 		next(error)
 	}
@@ -43,7 +41,7 @@ sectionsRouter.put('/', checkIfLoggedIn, async (req, res, next ) => {
 sectionsRouter.delete('/', checkIfLoggedIn, async (req, res, next) => {
 	try {
 		const { id } = req.body;
-		const section = await Section.findByIdAndDelete( id )
+		const section = await Section.findByIdAndDelete(id)
 		res.json({ deleted: section });
 	} catch(error) {
 		next(error)

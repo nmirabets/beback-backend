@@ -4,8 +4,9 @@ const { Schema } = mongoose;
 
 const sectionSchema = new Schema(
 	{
-		name: { type: String, required: true },
+		restaurantId: { type: Schema.Types.ObjectId, ref: 'Restaurant' },
 		menuId: { type: Schema.Types.ObjectId, ref: 'Menu' },
+		name: { type: String, required: true },
 		position: { type: Number, default: 1 },
 	}
 );

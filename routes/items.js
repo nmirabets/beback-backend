@@ -4,11 +4,11 @@ const itemsRouter = express.Router();
 
 const Item = require('../models/Item');
 
-// Get all items for a given menu
-itemsRouter.post('/', checkIfLoggedIn, async (req, res, next) => {
+// get items by restaurantId
+itemsRouter.post('/', async (req, res, next) => {
 	try {
-		const { menuId } = req.body;
-		const items = await Item.find({ menuId })
+		const { restaurantId } = req.body;
+		const items = await Item.find({ restaurantId })
 		res.json({ found: items })
 	} catch(error) {
 		next(error)
@@ -18,9 +18,9 @@ itemsRouter.post('/', checkIfLoggedIn, async (req, res, next) => {
 // Create an item
 itemsRouter.post('/new', checkIfLoggedIn, async (req, res, next) => {
 	try {
-		const { menuId, sectionId, name, description, imgUrl, price, allergens } = req.body;
-		const item = await Item.create({ menuId, sectionId, name, description, imgUrl, price, allergens })
-		res.json({ created: item });
+		const { item } = req.body;
+		const newItem = await Item.create(item)
+		res.json({ created: newItem });
 	} catch(error) {
 		next(error)
  	}
@@ -29,11 +29,20 @@ itemsRouter.post('/new', checkIfLoggedIn, async (req, res, next) => {
 // Update an item
 itemsRouter.put('/', checkIfLoggedIn, async (req, res, next ) => {
 	try {
-		const { id, menuId, sectionId, name, description, imgUrl, price, allergens, position } = req.body;
-		const section = await Item.findByIdAndUpdate(id, 
-			{ menuId, sectionId, name, description, imgUrl, price, allergens, position },
+		const { item } = req.body;
+		const updatedItem = await Item.findByIdAndUpdate(item._id,
+			{ 
+				menuId: item.menuId, 
+				sectionId: item.sectionId,
+				name: item.name,
+				description: item.description,
+				imgUrl: item.imgUrl,
+				price: item.price,
+				position: item.position,
+				isVisible: item.isVisible,
+			},
 			 { new: true })
-		res.json({ updated: section });
+		res.json({ updated: updatedItem });
 	} catch(error) {
 		next(error)
 	}
