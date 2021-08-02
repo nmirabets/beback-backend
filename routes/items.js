@@ -15,6 +15,17 @@ itemsRouter.post('/', async (req, res, next) => {
 	}
 });
 
+// get active items by restaurantId
+itemsRouter.post('/active', async (req, res, next) => {
+	try {
+		const { restaurantId } = req.body;
+		const items = await Item.find({ restaurantId, isVisible: true })
+		res.json({ found: items })
+	} catch(error) {
+		next(error)
+	}
+});
+
 // Create an item
 itemsRouter.post('/new', checkIfLoggedIn, async (req, res, next) => {
 	try {

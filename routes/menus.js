@@ -7,6 +7,17 @@ const Menu = require('../models/Menu');
 const Section = require('../models/Section');
 const Item = require('../models/Item');
 
+// Get active menus by restaurant Id
+menusRouter.post('/active', async (req, res, next) => {
+	try {
+		const { restaurantId } = req.body;
+		const menus = await Menu.find({ restaurantId, isVisible: true })
+		res.json({ found: menus })
+	} catch(error) {
+		next(error)
+	}
+});
+
 // Get a menu by menuId
 menusRouter.post('/', async (req, res, next) => {
 	try {
@@ -66,7 +77,7 @@ menusRouter.post('/new', checkIfLoggedIn, async (req, res, next) => {
 menusRouter.put('/', checkIfLoggedIn, async (req, res, next ) => {
 	try {
 		const { menu } = req.body;
-		const updatedMenu = await Menu.findByIdAndUpdate(menu.id, { name: menu.name })
+		const updatedMenu = await Menu.findByIdAndUpdate(menu._id, { name: menu.name, restaurantId: menu.restaurantId, isVisible: menu.isVisible })
 		res.json({ updated: updatedMenu });
 	} catch(error) {
 		next(error)

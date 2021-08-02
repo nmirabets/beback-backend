@@ -26,6 +26,16 @@ restaurantRouter.get('/all', async (req, res, next) => {
 	}
 });
 
+// Get all restaurants
+restaurantRouter.post('/load-one', async (req, res, next) => {
+	try {
+		const { id } = req.body;
+		const restaurant = await Restaurant.findById(id);
+		res.json({ found: restaurant })
+	} catch(error) {
+		next(error);
+	}
+});
 
 // Create a restaurant
 restaurantRouter.post('/', checkIfLoggedIn, async (req, res, next) => {

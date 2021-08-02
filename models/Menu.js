@@ -6,6 +6,7 @@ const menuSchema = new Schema(
 	{
 		name: { type: String, required: true },
 		restaurantId: { type: Schema.Types.ObjectId, ref: 'Restaurant' },
+		isVisible: { type: Boolean, default: true},
 	}
 );
 
