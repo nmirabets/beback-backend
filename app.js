@@ -38,13 +38,13 @@ async function setupApp() {
 			secret: process.env.SECRET_SESSION, // should be inside .env
 			resave: true,
 			saveUninitialized: true,
-			cookie: {
-				maxAge: 24 * 60 * 60 * 1000,
-				httpOnly: false,
-				sameSite: process.env.COOKIES_SAMESITE === 'true' ? 'lax' : 'none',
-				secure: process.env.COOKIES_SECURE
-				// secure: process.env.COOKIES_SAMESITE !== 'true',
-			},
+			// cookie: {
+			// 	maxAge: 24 * 60 * 60 * 1000,
+			// 	httpOnly: false,
+			// 	sameSite: process.env.COOKIES_SAMESITE === 'true' ? 'lax' : 'none',
+			// 	secure: process.env.COOKIES_SECURE
+			// 	// secure: process.env.COOKIES_SAMESITE !== 'true',
+			// },
 		})
 	);
 
