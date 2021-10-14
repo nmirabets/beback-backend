@@ -39,13 +39,12 @@ async function setupApp() {
 			resave: true,
 			saveUninitialized: true,
 			cookie: {
-				// domain: "",
-				httpOnly: false,
-				path: "/",
 				maxAge: 24 * 60 * 60 * 1000,
-				sameSite: none,
+				httpOnly: process.env.COOKIES_HTTPONLY,
+				path: process.env.COOKIES_PATH,
+				sameSite: process.env.COOKIES_SAMESITE,
+				secure: process.env.COOKIES_SECURE,
 				// sameSite: process.env.COOKIES_SAMESITE === 'true' ? 'lax' : 'none',
-				// secure: false,
 				// secure: process.env.COOKIES_SAMESITE !== 'true',
 			},
 		})
