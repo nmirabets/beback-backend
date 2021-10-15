@@ -1,7 +1,6 @@
 const createError = require('http-errors');
 
 const checkIfLoggedIn = (req, res, next) => {
-		console.log(req.session);
 	if (req.session.currentUser) {
 		next();
 	} else {
@@ -11,7 +10,7 @@ const checkIfLoggedIn = (req, res, next) => {
 
 const checkUsernameAndPasswordNotEmpty = (req, res, next) => {
 	const { username, password } = req.body;
-
+	
 	if (username !== '' && password !== '') {
 		res.locals.auth = req.body;
 		next();
