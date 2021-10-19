@@ -44,7 +44,7 @@ async function setupApp() {
 				// path: process.env.COOKIES_PATH,
 				// sameSite: process.env.COOKIES_SAMESITE,
 				// secure: process.env.COOKIES_SECURE,
-				// sameSite: process.env.COOKIES_SAMESITE === 'true' ? 'lax' : 'none',
+				sameSite: process.env.COOKIES_SAMESITE === 'true' ? 'lax' : 'none',
 				// secure: process.env.COOKIES_SAMESITE !== 'true',
 			},
 		})
