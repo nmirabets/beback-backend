@@ -50,14 +50,12 @@ async function setupApp() {
 		})
 	);
 
-	const urlPrefix = "/api";
-
-	app.use(urlPrefix + '/', authRouter);
-	app.use(urlPrefix + '/restaurants', restaurantsRouter);
-	app.use(urlPrefix + '/menus', menusRouter);
-	app.use(urlPrefix + '/sections', sectionsRouter);
-	app.use(urlPrefix + '/items', itemsRouter);
-	app.use(urlPrefix + '/reactions', reactionsRouter);
+	app.use('/', authRouter);
+	app.use('/restaurants', restaurantsRouter);
+	app.use('/menus', menusRouter);
+	app.use('/sections', sectionsRouter);
+	app.use('/items', itemsRouter);
+	app.use('/reactions', reactionsRouter);
 
 	// catch 404 and forward to error handler
 	app.use((req, res, next) => {
